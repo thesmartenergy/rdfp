@@ -1,0 +1,54 @@
+# Copyright 2016 ITEA 12004 SEAS Project.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, 
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+PREFIX iter: <http://w3id.org/sparql-generate/iter/>
+PREFIX fn: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX mail: <http://example.com/mail#>
+PREFIX note: <http://example.com/note/>
+PREFIX ex: <http://example.com/>
+
+GENERATE { 
+
+    ?noteIRI a mail:note;
+            mail:from ?from;
+            mail:to ?to;
+            mail:heading ?heading;
+            mail:body ?body .
+
+    ?dmy a ex:DateTime;
+                ex:day ?gDay;
+                ex:month ?gMonth;
+                ex:year ?gYear .       
+                
+    ?noteIRI mail:when ?dmy .
+}
+ITERATOR iter:JSONListKeys(?message) AS ?noteId
+WHERE {
+     BIND( fn:JSONPath(?message, CONCAT("$.", ?noteId)  ) AS ?note )
+     BIND( fn:JSONPath(?note, "$.dateTime"  ) AS ?dateTime )
+     BIND( fn:JSONPath(?dateTime, "$.day"  ) AS ?day )
+     BIND( fn:JSONPath(?dateTime, "$.month"  ) AS ?month )
+     BIND( fn:JSONPath(?dateTime, "$.year"  ) AS ?year )
+     BIND (STRDT(?year,xsd:gYear) as ?gYear )
+     BIND (STRDT(?month,xsd:gMonth) as ?gMonth )
+     BIND (STRDT(?day,xsd:gDay) as ?gDay )
+     BIND( fn:JSONPath(?note, "$.to"  ) AS ?to )
+     BIND( fn:JSONPath(?note, "$.from"  ) AS ?from )
+     BIND( fn:JSONPath(?note, "$.heading"  ) AS ?heading )
+     BIND( fn:JSONPath(?note, "$.body"  ) AS ?body )
+     BIND(IRI(CONCAT("http://example.com/note/",?noteId)) as ?noteIRI)
+     BIND(IRI(CONCAT("http://example.com/DateTime/",?year,"/",?month,"/",?day)) as ?dmy)
+
+} 

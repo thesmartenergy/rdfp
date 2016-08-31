@@ -1,2 +1,3 @@
-# rdfp
-RDF Presentation ontology, RDF Presentation negociation, implementation over Jersey and demonstration website
+# RDF Presentation description, RDF Presentation Negociation, implementation over Jersey
+ 
+See the demonstration website at https://w3id.org/rdfp/

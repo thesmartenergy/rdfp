@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.thesmartenergy</groupId>
+    <artifactId>rdfp-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+       
+    <name>RDF Presentation - parent</name>
+    <description>The parent project for RDFP - RDF Presentation: its implementation over Jersey and the demonstration website</description>
+    <url>http://${repository.domain}/${repository.user}/${repository.name}</url>
+    <inceptionYear>2016</inceptionYear>
+
+    <!-- command to deploy to maven: mvn clean deploy -DperformRelease=true-->
+
+    <modules>
+        <module>rdfp-jersey</module>
+        <module>rdfp-website</module>
+    </modules>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
+    <developers>
+        <developer>
+            <name>Maxime Lefrançois</name>            
+            <email>maxime.lefrancois@emse.fr</email>
+            <url>http://maxime-lefrancois.info/</url>
+            <organization>Ecole des mines de Saint-Etienne</organization>
+            <organizationUrl>http://www.mines-stetienne.fr/</organizationUrl>
+            <timezone>UTC+01:00</timezone>
+            <properties>
+                <picUrl>http://gravatar.com/userimage/102097381/dac8aeb15edac9a93e09a7974743957f</picUrl>
+            </properties>        
+        </developer>
+    </developers>
+
+    <organization>
+        <name>ITEA 12004 SEAS Project</name>
+        <url>https://itea3.org/project/seas.html</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:https://${repository.domain}/${repository.user}/${repository.name}.git</connection>
+        <url>https://${repository.domain}/${repository.user}/${repository.name}</url>
+        <developerConnection>scm:git:ssh://${repository.domain}/${repository.user}/${repository.name}.git
+        </developerConnection>
+    </scm>
+    
+    <issueManagement>
+        <url>http://${repository.domain}/${repository.user}/${repository.name}/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <websiteName>rdfp</websiteName>
+        
+        <!-- ========================  -->
+        <!--    GitHub PROPERTIES      -->
+        <!-- ========================  -->
+
+        <github.global.server>github.com</github.global.server>
+
+        <!-- ========================  -->
+        <!--    PROJECT PROPERTIES     -->
+        <!-- ========================  -->
+        
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>        
+        <project.scm.id>git</project.scm.id>
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
+
+        <!-- ========================  -->
+        <!--    SITE DOC PROPERTIES    -->
+        <!-- ========================  -->
+
+        <repository.domain>github.com</repository.domain>
+        <repository.user>thesmartenergy</repository.user>
+        <repository.name>rdfp</repository.name>
+
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+  
+    <build>
+        <extensions>
+            <extension>
+                <!-- add support for ssh/scp -->
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.10</version>
+            </extension>
+        </extensions>
+        <pluginManagement>
+            <plugins>
+                <!-- ========================  -->
+                <!--    DEFAULT LIFECYCLE      -->
+                <!-- ========================  -->
+                <!-- configure validate -->
+                <plugin>
+                    <groupId>org.apache.rat</groupId>
+                    <artifactId>apache-rat-plugin</artifactId>
+                    <version>0.11</version>
+                    <executions>
+                        <execution>
+                            <id>rat-checks</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <excludeSubProjects>true</excludeSubProjects>
+                        <excludes>
+                            <exclude>**/src/site/**/*.*</exclude>
+                            <exclude>**/src/main/webapp/**/*.*</exclude>
+                            <exclude>**/src/main/resources/**/*.json</exclude>
+                            <exclude>**/beans.xml</exclude>
+                            <exclude>**/*.js</exclude>
+                            <exclude>**/*.rqg</exclude>
+                            <exclude>**/src/main/**/*.html</exclude>
+                            <exclude>**/src/test/**/*.*</exclude>
+                            <exclude>**/src/**/package-info.java</exclude>
+                            <exclude>**/*.txt</exclude>
+                            <exclude>**/nb-configuration.xml</exclude>
+                            <exclude>**/nbactions.xml</exclude>
+                            <exclude>**/README.md</exclude>
+                            <exclude>**/nbproject/*</exclude>
+                            <exclude>**/log4j.properties</exclude>
+                            <exclude>**/log4j-testing.properties</exclude>
+                            <exclude>**/*.classpath</exclude>
+                            <exclude>**/target/**/*</exclude>
+                            <exclude>**/dependency-reduced-pom.xml</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.8</source>   <!-- use java 8 -->
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+                <!-- ========================  -->
+                <!-- CUSTOM RELEASE LIFECYCLE  -->
+                <!-- ========================  -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <releaseProfiles>gpg</releaseProfiles>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- actual enabled plugins -->
+        <plugins>
+            <!-- validate -->
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+            </plugin>
+
+            <!-- ========================  -->
+            <!-- CUSTOM RELEASE LIFECYCLE  -->
+            <!-- ========================  -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            
+        </plugins>
+    </build>
+    
+    <!-- ========================  -->
+    <!--        GnuPG PLUGIN       -->
+    <!-- ========================  -->
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>maxime.lefrancois.86@gmail.com</keyname>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
