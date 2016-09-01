@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.thesmartenergy</groupId>
+        <artifactId>rdfp</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>rdfp-jersey-server</artifactId>
+    <packaging>jar</packaging>
+
+    <name>RDF Presentation over Jersey server</name>
+    <description>An implementation of RDF Presentation and Presentation Negociation over Jersey</description>
+    <url>http://w3id.org/rdfp/</url>
+    <inceptionYear>2016</inceptionYear>
+
+    <organization>
+        <name>ITEA 12004 SEAS Project</name>
+        <url>https://itea3.org/project/seas.html</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:https://${repository.domain}/${repository.user}/rdfp.git</connection>
+        <url>https://${repository.domain}/${repository.user}/rdfp</url>
+        <developerConnection>scm:git:ssh://${repository.domain}/${repository.user}/rdfp.git
+        </developerConnection>
+        <tag>1.0</tag>
+    </scm>
+
+    <issueManagement>
+        <url>http://${repository.domain}/${repository.user}/rdfp/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+        
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <!-- ==========================  -->
+        <!--    CHANGE LOG PROPERTIES    -->
+        <!-- ==========================  -->
+        <changelog.github.fileUri>${project.scm.url}/tree/master/%FILE%</changelog.github.fileUri>
+        <changelog.revision.github.fileUri>${project.scm.url}/commit</changelog.revision.github.fileUri>
+        <changelog.fileUri>${changelog.github.fileUri}</changelog.fileUri>
+        <changelog.revision.fileUri>${changelog.revision.github.fileUri}</changelog.revision.fileUri>
+        
+        <!-- ==========================  -->
+        <!--    DEPENDENCY VERSIONS      -->
+        <!-- ==========================  -->
+        <jena.version>3.0.1</jena.version>
+        <sparql-generate.version>1.1</sparql-generate.version>
+        <jersey.version>2.22.2</jersey.version>
+        <kgengine.version>3.2.1</kgengine.version>
+        <semargl-rdf.version>0.6.1</semargl-rdf.version>
+        <jsonld-java.version>0.3</jsonld-java.version>
+        <sesame-rio-api.version>4.1.2</sesame-rio-api.version>
+    </properties>
+    
+    <dependencies>
+        <!-- dependencies for Jersey and CDI -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>6.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- dependencies for jena -->
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+
+        <!-- dependencies for sparql-generate -->
+        <dependency>
+            <groupId>com.github.thesmartenergy</groupId>
+            <artifactId>sparql-generate-jena</artifactId>
+            <version>${sparql-generate.version}</version>
+        </dependency>
+        
+        <!-- dependencies for corese -->
+        <dependency>
+            <groupId>fr.inria.wimmics</groupId>
+            <artifactId>kgengine</artifactId>
+            <version>${kgengine.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.semarglproject</groupId>
+            <artifactId>semargl-rdf</artifactId>
+            <version>${semargl-rdf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsonld-java</groupId>
+            <artifactId>jsonld-java</artifactId>
+            <version>${jsonld-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-api</artifactId>
+            <version>${sesame-rio-api.version}</version>
+        </dependency>
+        <!-- end of dependencies for corese -->
+
+    </dependencies>
+
+    <build>
+        <finalName>rdfp-jersey-server-${project.version}</finalName>
+        <pluginManagement>
+            <plugins>
+                <!-- ========================  -->
+                <!--    DEFAULT LIFECYCLE      -->
+                <!-- ========================  -->
+
+                <!-- configure process-sources -->            
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>2.5</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>run-jxr</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>jxr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- configure verify -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>taglist-maven-plugin</artifactId>
+                    <version>2.4</version>
+                    <!-- needs XRef --> 
+                    <inherited>true</inherited>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <sourceFileLocale>en</sourceFileLocale>
+                        <tagListOptions>
+                            <tagClasses>
+                                <tagClass>
+                                    <displayName>Code sections needing review</displayName>
+                                    <tags>
+                                        <tag>
+                                            <matchString>REVIEWREQUIRED</matchString>
+                                            <matchType>exact</matchType>
+                                        </tag>
+                                    </tags>
+                                </tagClass>
+                                <tagClass>
+                                    <displayName>Todo Work</displayName>
+                                    <tags>
+                                        <tag>
+                                            <matchString>todo</matchString>
+                                            <matchType>ignoreCase</matchType>
+                                        </tag>
+                                        <tag>
+                                            <matchString>@todo</matchString>
+                                            <matchType>ignoreCase</matchType>
+                                        </tag>
+                                    </tags>
+                                </tagClass>
+                                <tagClass>
+                                    <displayName>Noted Bugs</displayName>
+                                    <tag>
+                                        <matchString>fixme</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                </tagClass>
+                                <tagClass>
+                                    <displayName>Deprecated Items</displayName>
+                                    <tag>
+                                        <matchString>@deprecated</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                </tagClass>
+                            </tagClasses>
+                        </tagListOptions>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>run-taglist</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>taglist</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.17</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <skip>${checkstyle.skip}</skip>
+                        <configLocation>${maven-checkstyle-plugin.configLocation}</configLocation>
+                        <failsOnError>false</failsOnError>
+                        <enableRulesSummary>true</enableRulesSummary>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>run-checkstyle</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>checkstyle</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>3.0.3</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <skip>${findbugs.skip}</skip>
+                        <maxHeap>512</maxHeap>
+                        <xmlOutput>true</xmlOutput>
+                        <includeTests>true</includeTests>
+                        <effort>max</effort>
+                        <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>run-findbugs</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>findbugs</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+                <!-- ========================  -->
+                <!--    PACKAGE LIFECYCLE      -->
+                <!-- ========================  -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.3</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- actual enabled plugins -->
+        <plugins>
+
+            <!-- ========================  -->
+            <!--    DEFAULT LIFECYCLE      -->
+            <!-- ========================  -->
+
+            <!-- validate -->
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+            </plugin>
+
+            <!-- process-sources -->            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+
+            <!-- package -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+                
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+            <!-- verify -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>

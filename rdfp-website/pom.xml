@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.thesmartenergy</groupId>
-        <artifactId>rdfp-parent</artifactId>
+        <artifactId>rdfp</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -20,14 +20,14 @@
     </organization>
 
     <scm>
-        <connection>scm:git:https://${repository.domain}/${repository.user}/rcpp.git</connection>
-        <url>https://${repository.domain}/${repository.user}/rcpp</url>
-        <developerConnection>scm:git:ssh://${repository.domain}/${repository.user}/rcpp.git
+        <connection>scm:git:https://${repository.domain}/${repository.user}/rdfp.git</connection>
+        <url>https://${repository.domain}/${repository.user}/rdfp</url>
+        <developerConnection>scm:git:ssh://${repository.domain}/${repository.user}/rdfp.git
         </developerConnection>
     </scm>
 
     <issueManagement>
-        <url>http://${repository.domain}/${repository.user}/rcpp/issues</url>
+        <url>http://${repository.domain}/${repository.user}/rdfp/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
         
@@ -125,8 +125,8 @@
         <!-- dependencies for rdfp -->
         <dependency>
             <groupId>com.github.thesmartenergy</groupId>
-            <artifactId>rdfp-jersey</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>rdfp-jersey-server</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
@@ -153,6 +153,7 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <siteDirectory>src/site</siteDirectory>
                         <attach>true</attach>
                         <outputDirectory>target\${project.build.finalName}</outputDirectory>
                         <reportPlugins>
@@ -188,7 +189,7 @@
                                 <outputDirectory>${basedir}/target/rdfp/apidocs</outputDirectory>
                                 <resources>          
                                     <resource>
-                                        <directory>../rdfp-jersey/target/apidocs</directory>
+                                        <directory>../rdfp-jersey-server/target/apidocs</directory>
                                         <filtering>true</filtering>
                                     </resource>
                                 </resources>              
@@ -208,8 +209,8 @@
                                 <goal>copy</goal>
                             </goals>
                             <configuration>
-                                <sourceFile>../rdfp-jersey/target/rdfp-jersey-${project.version}.jar</sourceFile>
-                                <destinationFile>${basedir}/target/rdfp/rdfp-jersey-${project.version}.jar</destinationFile>
+                                <sourceFile>../rdfp-jersey-server/target/rdfp-jersey-server-${project.version}.jar</sourceFile>
+                                <destinationFile>${basedir}/target/rdfp/rdfp-jersey-server-${project.version}.jar</destinationFile>
                             </configuration>            
                         </execution>
                         <execution>
@@ -219,7 +220,7 @@
                                 <goal>copy</goal>
                             </goals>
                             <configuration>
-                                <sourceFile>../rdfp-jersey/target/site/project-summary.html</sourceFile>
+                                <sourceFile>../target/site/project-summary.html</sourceFile>
                                 <destinationFile>${basedir}/target/rdfp/project-summary.html</destinationFile>
                             </configuration>            
                         </execution>
@@ -230,8 +231,19 @@
                                 <goal>copy</goal>
                             </goals>
                             <configuration>
-                                <sourceFile>../rdfp-jersey/target/site/source-repository.html</sourceFile>
+                                <sourceFile>../target/site/source-repository.html</sourceFile>
                                 <destinationFile>${basedir}/target/rdfp/source-repository.html</destinationFile>
+                            </configuration>            
+                        </execution>
+                        <execution>
+                            <id>copy-site-issue-tracking</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>copy</goal>
+                            </goals>
+                            <configuration>
+                                <sourceFile>../target/site/issue-tracking.html</sourceFile>
+                                <destinationFile>${basedir}/target/rdfp/issue-tracking.html</destinationFile>
                             </configuration>            
                         </execution>
                     </executions>
@@ -243,6 +255,11 @@
             <plugin>
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
+            </plugin>
+            <!-- attach-descriptor  -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -307,17 +324,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            
-            <!-- ========================  -->
-            <!--    SITE LIFECYCLE         -->
-            <!-- ========================  -->
-
-            <!-- attach-descriptor  -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-            </plugin>
-
         </plugins>        
     </build>
 

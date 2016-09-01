@@ -25,11 +25,17 @@ See the License for the specific language governing permissions and
         
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="RDF Presentation ontology" href=".ttl"/>
-            <item name="RDF Presentation example" href="example/description"/>
-            <item name="RDF Presentation Negociation demonstration" href="example"/>
+            <item name="The RDFP vocabulary (Turtle)" href=".ttl"/>
+            <item name="The RDFP vocabulary (RDF/XML)" href=".rdf"/>
         </menu>
-
+        <menu name="Demonstration">
+            <item name="Example of a RDF Presentation description" href="example/description"/>
+            <item name="Demonstration of RDF Presentation Negociation" href="demonstration.html"/>
+        </menu>
+        <menu name="Implementation over Jersey">
+            <item name="Java library" href="get-started.html"/>
+            <item name="Documentation" href="apidocs/index.html"/>        
+        </menu>
         <menu ref="reports" inherit="top"/>
     </body>
     <skin>

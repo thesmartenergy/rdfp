@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.thesmartenergy</groupId>
-    <artifactId>rdfp-parent</artifactId>
+    <artifactId>rdfp</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
        
-    <name>RDF Presentation - parent</name>
+    <name>RDF Presentation</name>
     <description>The parent project for RDFP - RDF Presentation: its implementation over Jersey and the demonstration website</description>
     <url>http://${repository.domain}/${repository.user}/${repository.name}</url>
     <inceptionYear>2016</inceptionYear>
@@ -14,7 +14,7 @@
     <!-- command to deploy to maven: mvn clean deploy -DperformRelease=true-->
 
     <modules>
-        <module>rdfp-jersey</module>
+        <module>rdfp-jersey-server</module>
         <module>rdfp-website</module>
     </modules>
 
@@ -179,6 +179,47 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                
+                <!-- ========================  -->
+                <!--    SITE LIFECYCLE         -->
+                <!-- ========================  -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.5</version>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>site</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <siteDirectory>rdfp-website/src/site</siteDirectory>
+                        <attach>true</attach>
+                        <outputDirectory>target\site</outputDirectory>
+                        <reportPlugins>
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-project-info-reports-plugin</artifactId>
+                                <configuration>
+                                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                                </configuration>
+                                <reports>
+                                    <report>summary</report>
+                                    <report>scm</report>
+                                    <report>issue-tracking</report>
+                                    <report>license</report>
+                                    <report>project-team</report>
+                                </reports>
+                            </plugin>
+                        </reportPlugins>
+                    </configuration>        
+                </plugin>
+
 
                 <!-- ========================  -->
                 <!-- CUSTOM RELEASE LIFECYCLE  -->
@@ -247,6 +288,11 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
