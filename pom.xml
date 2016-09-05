@@ -298,9 +298,19 @@
                                     <tagNameFormat>@{project.version}</tagNameFormat>
                                 </configuration>
                             </execution>
-                            </executions>
+                            <execution>
+                                <id>deploy-release</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>perform</goal>
+                                </goals>
+                                <configuration>
+                                    <preparationGoals>clean verify</preparationGoals>
+                                    <tagNameFormat>@{project.version}</tagNameFormat>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -314,24 +324,6 @@
                                 </goals>
                                 <configuration>
                                     <keyname>maxime.lefrancois.86@gmail.com</keyname>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>2.5.3</version>
-                        <executions>
-                            <execution>
-                                <id>deploy-release</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>perform</goal>
-                                </goals>
-                                <configuration>
-                                    <preparationGoals>clean verify</preparationGoals>
-                                    <tagNameFormat>@{project.version}</tagNameFormat>
                                 </configuration>
                             </execution>
                         </executions>
