@@ -24,7 +24,7 @@ Similarly, while requesting for an RDF graph, an HTTP server/client may inform t
 
 Following the Linked Data principles, RDF Presentations are given uniform identifiers (URIs), and an RDF description of these presentations can be retrieved at their URI.
 
-The RDFP vocabulary can be used to describe RDF Presentations and the range of RDF graphs they apply to. It can be accessed at this URI: https://w3id.org/rdfp/ using content negociation (i.e., set HTTP Header field `Accept` to one of the RDF syntaxes media types, or access it directly in [turtle](.ttl), or in [RDF/XML](.rdf).
+The RDFP vocabulary can be used to describe RDF Presentations and the range of RDF graphs they apply to. It can be accessed at this URI: https://w3id.org/rdfp/ using content negociation (i.e., set HTTP Header field `Accept` to one of the RDF syntaxes media types, or access it directly in [turtle](index.ttl), or in [RDF/XML](index.rdf).
 
 For example, the RDF Presentation identified by https://w3id.org/rdfp/example/graph/xml is described at its URI by:
 
