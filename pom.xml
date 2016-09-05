@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.thesmartenergy</groupId>
     <artifactId>rdfp</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
        
     <name>RDF Presentation</name>
@@ -46,8 +46,8 @@
         <url>https://${repository.domain}/${repository.user}/${repository.name}</url>
         <developerConnection>scm:git:https://${repository.domain}/${repository.user}/${repository.name}.git
         </developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     
     <issueManagement>
         <url>http://${repository.domain}/${repository.user}/${repository.name}/issues</url>
@@ -140,7 +140,7 @@
                     <executions>
                         <execution>
                             <id>clean-release</id>
-                            <phase>post-clean</phase>
+                            <phase>clean</phase>
                             <goals>
                                 <goal>clean</goal>
                             </goals>
@@ -238,21 +238,6 @@
                         </reportPlugins>
                     </configuration>        
                 </plugin>
-
-
-                <!-- ========================  -->
-                <!-- CUSTOM RELEASE LIFECYCLE  -->
-                <!-- ========================  -->
-                <!--                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <inherited>true</inherited>
-                    <configuration>
-                        <releaseProfiles>gpg</releaseProfiles>
-                        <tagNameFormat>@{project.version}</tagNameFormat>
-                    </configuration>
-                </plugin>-->
             </plugins>
         </pluginManagement>
 
@@ -263,23 +248,12 @@
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
             </plugin>
-
-            <!-- ========================  -->
-            <!-- CUSTOM RELEASE LIFECYCLE  -->
-            <!-- ========================  -->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-            </plugin>
-            
         </plugins>
     </build>
     
     <!-- ========================  -->
-    <!--        GnuPG PLUGIN       -->
+    <!-- CUSTOM RELEASE LIFECYCLE  -->
     <!-- ========================  -->
-
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
@@ -300,7 +274,7 @@
                         <executions>
                             <execution>
                                 <id>commit-changes</id>
-                                <phase>prepare-package</phase>
+                                <phase>validate</phase>
                                 <goals>
                                     <goal>checkin</goal>
                                 </goals>
@@ -309,6 +283,24 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.5.3</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-release</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>prepare</goal>
+                                </goals>
+                                <configuration>
+                                    <resume>false</resume>
+                                    <tagNameFormat>@{project.version}</tagNameFormat>
+                                </configuration>
+                            </execution>
+                            </executions>
                     </plugin>
 
                     <plugin>
@@ -334,21 +326,15 @@
                         <version>2.5.3</version>
                         <executions>
                             <execution>
-                                <id>prepare-release</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>prepare</goal>
-                                </goals>
-                                <configuration>
-                                    <resume>false</resume>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>deploy-release</id>
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>perform</goal>
                                 </goals>
+                                <configuration>
+                                    <preparationGoals>clean verify</preparationGoals>
+                                    <tagNameFormat>@{project.version}</tagNameFormat>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
