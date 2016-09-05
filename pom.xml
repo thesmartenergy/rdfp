@@ -130,24 +130,6 @@
         <pluginManagement>
             <plugins>
                 <!-- ========================  -->
-                <!--    CLEAN LIFECYCLE      -->
-                <!-- ========================  -->
-                <!-- clean release -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <executions>
-                        <execution>
-                            <id>clean-release</id>
-                            <phase>clean</phase>
-                            <goals>
-                                <goal>clean</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <!-- ========================  -->
                 <!--    DEFAULT LIFECYCLE      -->
                 <!-- ========================  -->
                 <!-- configure validate -->
@@ -238,6 +220,38 @@
                         </reportPlugins>
                     </configuration>        
                 </plugin>
+                
+                <!-- ========================  -->
+                <!--   ADDITIONNAL PLUGINS     -->
+                <!-- ========================  -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>1.9.5</version>
+                    <configuration>
+                        <connectionType>developerConnection</connectionType>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <executions>
+                        <execution>
+                            <id>clean-release</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <resume>false</resume>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                        <releaseProfiles>sign-artifacts</releaseProfiles>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -251,66 +265,14 @@
         </plugins>
     </build>
     
-    <!-- ========================  -->
-    <!-- CUSTOM RELEASE LIFECYCLE  -->
-    <!-- ========================  -->
     <profiles>
+        <!-- ========================  -->
+        <!--  ENABLED DURING RELEASE   -->
+        <!-- ========================  -->
         <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
+            <id>sign-artifacts</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-scm-plugin</artifactId>
-                        <version>1.9.5</version>
-                        <executions>
-                            <execution>
-                                <id>commit-changes</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>checkin</goal>
-                                </goals>
-                                <configuration>
-                                    <connectionType>developerConnection</connectionType>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>2.5.3</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-release</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>prepare</goal>
-                                </goals>
-                                <configuration>
-                                    <resume>false</resume>
-                                    <tagNameFormat>@{project.version}</tagNameFormat>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>deploy-release</id>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>perform</goal>
-                                </goals>
-                                <configuration>
-                                    <preparationGoals>clean verify</preparationGoals>
-                                    <tagNameFormat>@{project.version}</tagNameFormat>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
