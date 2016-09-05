@@ -31,7 +31,7 @@ import javax.inject.Qualifier;
  * serialize RDF, and to generate correct URIs even though the actual web 
  * application may be exposed at a different URI.
  * 
- * For instance, RDFP demonstration website is exposed at URI
+ * For instance, RDFP demonstration website is exposed at URI 
  * http://ci.emse.fr/rdfp but it uses base URI https://w3id.org/rdfp .
  * 
  * @author Maxime Lefrançois <maxime.lefrancois at emse.fr>
