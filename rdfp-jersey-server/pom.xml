@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
 
     <name>RDF Presentation over Jersey server</name>
-    <description>An implementation of RDF Presentation and Presentation Negociation over Jersey</description>
+    <description>An implementation of RDF Presentation and RDF Presentation negociation for Jersey servers</description>
     <url>http://w3id.org/rdfp/</url>
     <inceptionYear>2016</inceptionYear>
 
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>6.0</version>
+            <version>7.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -46,7 +46,7 @@
         <url>https://${repository.domain}/${repository.user}/${repository.name}</url>
         <developerConnection>scm:git:ssh://${repository.domain}/${repository.user}/${repository.name}.git
         </developerConnection>
-  </scm>
+    </scm>
     
     <issueManagement>
         <url>http://${repository.domain}/${repository.user}/${repository.name}/issues</url>
@@ -128,6 +128,24 @@
         </extensions>
         <pluginManagement>
             <plugins>
+                <!-- ========================  -->
+                <!--    CLEAN LIFECYCLE      -->
+                <!-- ========================  -->
+                <!-- clean release -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <executions>
+                        <execution>
+                            <id>clean-release</id>
+                            <phase>post-clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
                 <!-- ========================  -->
                 <!--    DEFAULT LIFECYCLE      -->
                 <!-- ========================  -->
@@ -224,7 +242,7 @@
                 <!-- ========================  -->
                 <!-- CUSTOM RELEASE LIFECYCLE  -->
                 <!-- ========================  -->
-                <plugin>
+                <!--                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
@@ -233,7 +251,7 @@
                         <releaseProfiles>gpg</releaseProfiles>
                         <tagNameFormat>@{project.version}</tagNameFormat>
                     </configuration>
-                </plugin>
+                </plugin>-->
             </plugins>
         </pluginManagement>
 
@@ -272,6 +290,23 @@
             </activation>
             <build>
                 <plugins>
+
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-scm-plugin</artifactId>
+                        <version>1.9.5</version>
+                        <executions>
+                            <execution>
+                                <id>commit-changes</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>checkin</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -289,10 +324,29 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.5.3</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-release</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>prepare</goal>
+                                </goals>
+                                <configuration>
+                                    <resume>false</resume>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>deploy-release</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>perform</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

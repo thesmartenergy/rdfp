@@ -25,8 +25,8 @@ See the License for the specific language governing permissions and
         
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="The RDFP vocabulary (Turtle)" href=".ttl"/>
-            <item name="The RDFP vocabulary (RDF/XML)" href=".rdf"/>
+            <item name="The RDFP vocabulary (Turtle)" href="index.ttl"/>
+            <item name="The RDFP vocabulary (RDF/XML)" href="index.rdf"/>
         </menu>
         <menu name="Demonstration">
             <item name="Example of a RDF Presentation description" href="example/description"/>
@@ -57,6 +57,6 @@ See the License for the specific language governing permissions and
         </fluidoSkin>
     </custom>
 
-    <googleAnalyticsAccountId></googleAnalyticsAccountId>
+    <googleAnalyticsAccountId>UA-74855518-2</googleAnalyticsAccountId>
 
 </project>

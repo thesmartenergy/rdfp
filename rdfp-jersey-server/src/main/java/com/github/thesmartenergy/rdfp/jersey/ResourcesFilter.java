@@ -15,6 +15,7 @@
  */
 package com.github.thesmartenergy.rdfp.jersey;
 
+import com.github.thesmartenergy.rdfp.BaseURI;
 import com.github.thesmartenergy.rdfp.resources.ResourceManager;
 import java.io.IOException;
 import javax.inject.Inject;
@@ -38,6 +39,10 @@ import javax.servlet.http.HttpServletResponse;
 public class ResourcesFilter implements Filter {
     
     @Inject
+    @BaseURI
+    String BASE; 
+    
+    @Inject
     ResourceManager resourceManager;
 
     @Override
@@ -56,17 +61,15 @@ public class ResourcesFilter implements Filter {
                 chain.doFilter(request, response);
                 return;
             }
-            if(resourceManager.containsRedirection(resourcePath)) {
-                String redirection = contextPath + resourceManager.getRedirection(resourcePath);
-//                System.out.println("GraphFilter matched " + resourcePath + ". 303 Redirecting to " + redirection);
+            if(req.getMethod().equals("GET") && resourceManager.containsRedirection(resourcePath)) {
+                String redirection = BASE + resourceManager.getRedirection(resourcePath);
                 HttpServletResponse res = (HttpServletResponse) response;
                 res.setHeader("Location", redirection);
                 res.setStatus(HttpServletResponse.SC_SEE_OTHER); 
                 res.flushBuffer();
                 return;
             }
-            if (resourceManager.containsResource(resourcePath)) { 
-//                System.out.println("ResourceFilter matched " + resourcePath + " redirecting to /_rdfp/resource/" + resourcePath);
+            if (req.getMethod().equals("GET") && resourceManager.containsResource(resourcePath)) { 
                 String newURI = "/_rdfp/resource/" + resourcePath;
                 request.setAttribute("resourceManager", resourceManager);
                 req.getRequestDispatcher(newURI).forward(req, response);

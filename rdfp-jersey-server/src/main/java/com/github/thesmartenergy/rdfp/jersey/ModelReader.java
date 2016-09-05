@@ -158,7 +158,7 @@ public class ModelReader implements MessageBodyReader<Model> {
             ForMediaType handledMediaType = handler.getClass().getAnnotation(ForMediaType.class);
             if (!MediaType.valueOf(handledMediaType.value()).isCompatible(mediaType)) {
                 continue;
-            }
+            } 
             try {
                 return handler.lift(mediaType, entityStream);
             } catch (ResourcePlatformException ex) {

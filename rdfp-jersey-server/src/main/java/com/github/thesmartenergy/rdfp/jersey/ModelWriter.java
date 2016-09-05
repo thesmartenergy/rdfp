@@ -94,6 +94,7 @@ public class ModelWriter implements MessageBodyWriter<Model> {
             return;
         }
         ResourceDescription graphType = (ResourceDescription) httpHeaders.getFirst("graph-description");
+        httpHeaders.remove("graph-description");
         if (graphType == null) {
             // use only presentation-agnostic lowerers
             LOG.log(Level.INFO, "presentation-agnostic lowerers");
@@ -127,6 +128,9 @@ public class ModelWriter implements MessageBodyWriter<Model> {
             if (presentationMediaType.isCompatible(mediaType)) {
                 try {
                     lower(model, entityStream, mediaType, presentation);
+                    if(presentation.getNode().isURIResource()) {
+                        httpHeaders.add(RDFP.CONTENT_PRESENTATION, presentation.getNode().asResource().getURI());                    
+                    }
                     return;
                 } catch (Exception ex) {
                     String message = "Error while lowering with presentation " + n + ": " + ex.getMessage();

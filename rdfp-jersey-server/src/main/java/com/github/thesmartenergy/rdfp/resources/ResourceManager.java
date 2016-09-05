@@ -326,9 +326,6 @@ public class ResourceManager {
                 } else {
                     String n = REDIRECTIONS.put(definedResource, graphPath);
                     LOC_MAPPER.addAltEntry(BASE + definedResource, BASE + graphPath);
-                    if (n == null) {
-                        LOG.info(" new redirection: " + definedResource + " -> " + graphPath);
-                    }
                 }
             }
         }
@@ -354,7 +351,7 @@ public class ResourceManager {
         RESOURCES.get(resourcePath).forEach(new Consumer<WebRepresentation>() {
             @Override
             public void accept(WebRepresentation t) {
-                result.add(new Variant(t.mediaType, null, null));
+                result.add(new Variant(t.mediaType, (String) null, null));
             }
         });
         return result;

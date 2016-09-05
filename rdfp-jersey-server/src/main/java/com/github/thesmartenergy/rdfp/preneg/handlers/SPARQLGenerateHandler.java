@@ -58,7 +58,6 @@ public class SPARQLGenerateHandler extends BaseHandler implements LiftingHandler
             throw new ResourcePlatformException("Lifting handler SPARQL Generate cannot lift without a presentation description");
         }
         MediaType presentationMediaType = presentationUtils.presentationAcceptedMediaType(presentation);
-        LOG.info(mediaType + " vs " + presentationMediaType);
         if (!presentationUtils.presentationAcceptedMediaType(presentation).isCompatible(mediaType)) {
             throw new ResourcePlatformException("Lifting handler SPARQL Generate is asked to use presentatation <" + presentation.getNode() + "> that supports media type \"" + presentationMediaType + "\", but content media type is \"" + mediaType + "\"");
         }

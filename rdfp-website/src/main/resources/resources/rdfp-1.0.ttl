@@ -28,6 +28,7 @@
 @prefix qudt: <http://qudt.org/1.1/schema/qudt#>.
 @prefix sd: <http://www.w3.org/ns/sparql-service-description#>.
 @prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/>.
+@prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#>.
 
 @prefix rdfp: <https://w3id.org/rdfp/>.
 @base <https://w3id.org/rdfp/>.

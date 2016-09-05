@@ -64,7 +64,6 @@ public class STTLHandler extends BaseHandler implements LoweringHandler {
             throw new ResourcePlatformException("Lowering handler STTL cannot lower without a presentation description");
         }
         MediaType presentationMediaType = presentationUtils.presentationAcceptedMediaType(presentation);
-        LOG.info(mediaType + " vs " + presentationMediaType);
         if (!presentationUtils.presentationAcceptedMediaType(presentation).isCompatible(mediaType)) {
             throw new ResourcePlatformException("Lowering handler STTL is asked to use presentatation <" + presentation.getNode() + "> that supports media type \"" + presentationMediaType + "\", but content media type is \"" + mediaType + "\"");
         }

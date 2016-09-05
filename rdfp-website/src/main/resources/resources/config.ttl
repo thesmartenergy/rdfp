@@ -16,7 +16,7 @@
 @base <https://w3id.org/rdfp/>.
 
 <> a rdfp:Graph ; rdfp:fileName "rdfp-1.0.ttl" ;
-  rdfp:alias <1.0> .
+  rdfp:alias <index>, <1.0> .
 
 <example/description> a rdfp:Graph ; rdfp:fileName "example-description.ttl" .
 

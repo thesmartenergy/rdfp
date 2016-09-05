@@ -10,7 +10,7 @@
     <packaging>war</packaging>
 
     <name>RDF Presentation - website</name>
-    <description>The website for exposing the RDF Presentation ontology, and demonstrating RDF Presentation Negociation.</description>
+    <description>The website for exposing the RDF Presentation ontology, and demonstrating RDF Presentation negociation.</description>
     <url>http://w3id.org/rdfp/</url>
     <inceptionYear>2016</inceptionYear>
 
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>6.0</version>
+            <version>7.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -126,7 +126,7 @@
         <dependency>
             <groupId>com.github.thesmartenergy</groupId>
             <artifactId>rdfp-jersey-server</artifactId>
-            <version>${project.version}</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -306,7 +306,7 @@
                                 <artifactItem>
                                     <groupId>javax</groupId>
                                     <artifactId>javaee-endorsed-api</artifactId>
-                                    <version>6.0</version>
+                                    <version>7.0</version>
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>

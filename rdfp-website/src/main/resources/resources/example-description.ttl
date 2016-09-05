@@ -23,32 +23,32 @@
 @prefix rdfp: <https://w3id.org/rdfp/>.
 @base <https://w3id.org/rdfp/>.
 
-<example/description> rdf:type voaf:Vocabulary , owl:Ontology , foaf:Document ;
-  dc:title "CNR Smart Charging Provider description"@en .
+<example/description> a foaf:Document ;
+  dc:title "Illustrating example for RDF Presentation negociation."@en .
 
 <example/graph> a rdfp:GraphDescription ;
   rdfs:comment "The graph contains the expressed charging needs for all of the connected electric vehicles in the electric vehicle service equipment pools."@en ;
   rdfp:presentedBy <example/graph/xml> , <example/graph/json> ;
   rdfs:isDefinedBy <example/description> .
 
-<example/graph/xml> a rdfp:Presentation ;
+<example/graph/xml> a rdfp:GraphPresentation ;
   rdfp:mediaType "application/xml" ; 
   rdfp:liftingRule <example/graph/xml/liftingRule> ;
   rdfp:loweringRule <example/graph/xml/loweringRule> ;
   rdfs:isDefinedBy <example/description> .
 
-<example/graph/json> a rdfp:Presentation ;
+<example/graph/json> a rdfp:GraphPresentation ;
   rdfp:mediaType "application/json" ; 
   rdfp:liftingRule <example/graph/json/liftingRule> ;
   rdfp:loweringRule <example/graph/json/loweringRule> ;
   rdfs:isDefinedBy <example/description> .
 
-<presentation2> a rdfp:Presentation ;
+<presentation2> a rdfp:GraphPresentation ;
   rdfp:mediaType "application/xml" ; 
   rdfp:loweringRule <presentation2/loweringRule> ;
   rdfs:isDefinedBy <example/description> .
 
-<presentation3> a rdfp:Presentation ;
+<presentation3> a rdfp:GraphPresentation ;
   rdfp:mediaType "text/plain" ; 
   rdfp:liftingRule <presentation3/liftingRule> ;
   rdfs:isDefinedBy <example/description> .
