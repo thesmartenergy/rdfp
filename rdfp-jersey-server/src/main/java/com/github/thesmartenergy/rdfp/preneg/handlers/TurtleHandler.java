@@ -16,11 +16,11 @@
 package com.github.thesmartenergy.rdfp.preneg.handlers;
 
 import com.github.thesmartenergy.rdfp.preneg.ForMediaType;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.preneg.LiftingHandler;
 import com.github.thesmartenergy.rdfp.preneg.LoweringHandler;
-import com.github.thesmartenergy.rdfp.BaseURI;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
+import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.RDFPException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.inject.Inject;
@@ -42,37 +42,37 @@ public class TurtleHandler implements LiftingHandler, LoweringHandler {
     String base;
 
     @Override
-    public void lower(Model model, OutputStream entityStream, MediaType mediaType) throws ResourcePlatformException {
+    public void lower(Model model, OutputStream entityStream, MediaType mediaType) throws RDFPException {
         lower(model, entityStream, mediaType, null);
     }
     
     @Override
-    public void lower(Model model, OutputStream entityStream, MediaType mediaType, ResourceDescription presentation) throws ResourcePlatformException {
+    public void lower(Model model, OutputStream entityStream, MediaType mediaType, ResourceDescription presentation) throws RDFPException {
         if(presentation != null) {
-            throw new ResourcePlatformException("Lowering handler TurtleHandler can only lower RDF content with no specified presentation");
+            throw new RDFPException("Lowering handler TurtleHandler can only lower RDF content with no specified presentation");
         }
         if(!mediaType.isCompatible(MediaType.valueOf(MEDIA_TYPE))) {
-            throw new ResourcePlatformException("Lowering handler TurtleHandler can only lower RDF content to a representation with MediaType " + MEDIA_TYPE);
+            throw new RDFPException("Lowering handler TurtleHandler can only lower RDF content to a representation with MediaType " + MEDIA_TYPE);
         }
         model.write(entityStream, "TTL", base);
     }
     
     @Override
-    public Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws ResourcePlatformException {
+    public Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws RDFPException {
         if(!mediaType.isCompatible(MediaType.valueOf(MEDIA_TYPE))) {
-            throw new ResourcePlatformException("Lifting handler TurtleHandler can only lift representations with MediaType " + MEDIA_TYPE);
+            throw new RDFPException("Lifting handler TurtleHandler can only lift representations with MediaType " + MEDIA_TYPE);
         }
         Model model = ModelFactory.createDefaultModel();
         try {
             model.read(entityStream, base, "TTL");
         } catch (Exception ex) {
-            throw new ResourcePlatformException(ex);
+            throw new RDFPException(ex);
         }
         return model;            
     }
 
     @Override
-    public Model lift(MediaType mediaType, InputStream entityStream) throws ResourcePlatformException {
+    public Model lift(MediaType mediaType, InputStream entityStream) throws RDFPException {
         return lift(mediaType, null, entityStream);
     }
     

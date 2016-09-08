@@ -17,9 +17,9 @@ package com.github.thesmartenergy.rdfp.preneg.handlers;
 
 import com.github.thesmartenergy.rdfp.preneg.LoweringHandler;
 import com.github.thesmartenergy.rdfp.jersey.PresentationUtils;
-import com.github.thesmartenergy.rdfp.BaseURI;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.RDFPException;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import fr.inria.edelweiss.kgraph.core.Graph;
 import fr.inria.edelweiss.kgtool.load.Load;
 import fr.inria.edelweiss.kgtool.load.LoadException;
@@ -52,24 +52,30 @@ public class STTLHandler extends BaseHandler implements LoweringHandler {
 
     @Inject
     PresentationUtils presentationUtils;
+
+    public STTLHandler(String base, PresentationUtils presentationUtils) {
+        this.base = base;
+        this.presentationUtils = presentationUtils;
+    }
+    
     
     @Override
-    public void lower(Model model, OutputStream entityStream, MediaType mediaType) throws ResourcePlatformException {
+    public void lower(Model model, OutputStream entityStream, MediaType mediaType) throws RDFPException {
         lower(model, entityStream, mediaType, null);
     }
 
     @Override
-    public void lower(Model model, OutputStream entityStream, MediaType mediaType, ResourceDescription presentation) throws ResourcePlatformException {
+    public void lower(Model model, OutputStream entityStream, MediaType mediaType, ResourceDescription presentation) throws RDFPException {
         if (presentation == null) {
-            throw new ResourcePlatformException("Lowering handler STTL cannot lower without a presentation description");
+            throw new RDFPException("Lowering handler STTL cannot lower without a presentation description");
         }
         MediaType presentationMediaType = presentationUtils.presentationAcceptedMediaType(presentation);
         if (!presentationUtils.presentationAcceptedMediaType(presentation).isCompatible(mediaType)) {
-            throw new ResourcePlatformException("Lowering handler STTL is asked to use presentatation <" + presentation.getNode() + "> that supports media type \"" + presentationMediaType + "\", but content media type is \"" + mediaType + "\"");
+            throw new RDFPException("Lowering handler STTL is asked to use presentatation <" + presentation.getNode() + "> that supports media type \"" + presentationMediaType + "\", but content media type is \"" + mediaType + "\"");
         }
         List<String> loweringRulesURIs = getLoweringRulesUris(presentation);
         if (loweringRulesURIs.isEmpty()) {
-            throw new ResourcePlatformException("Lowering handler STTL could not find any lowering rule associated to presentation <" + presentation.getNode() + ">");
+            throw new RDFPException("Lowering handler STTL could not find any lowering rule associated to presentation <" + presentation.getNode() + ">");
         }
         // MediaType.valueOf("application/vnd.corese-rules")
 
@@ -100,7 +106,7 @@ public class STTLHandler extends BaseHandler implements LoweringHandler {
                 }
             }
         }
-        throw new ResourcePlatformException("Lowering handler STTL could not lower with representation <" + presentation.getNode() + ">. Errors are:\n" + String.join("\n", errors));
+        throw new RDFPException("Lowering handler STTL could not lower with representation <" + presentation.getNode() + ">. Errors are:\n" + String.join("\n", errors));
     }
 
 }

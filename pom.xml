@@ -11,7 +11,8 @@
     <url>http://${repository.domain}/${repository.user}/${repository.name}</url>
     <inceptionYear>2016</inceptionYear>
 
-    <!-- command to deploy to maven: mvn clean deploy -DperformRelease=true-->
+    <!-- command to deploy to maven: -->
+    <!--mvn clean scm:checkin release:prepare release:perform -Dmessage=""-->
 
     <modules>
         <module>rdfp-jersey-server</module>

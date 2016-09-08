@@ -17,9 +17,9 @@ package com.github.thesmartenergy.rdfp.jersey;
 
 import com.github.thesmartenergy.rdfp.preneg.LoweringHandler;
 import com.github.thesmartenergy.rdfp.preneg.ForMediaType;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
+import com.github.thesmartenergy.rdfp.RDFPException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -160,7 +160,7 @@ public class ModelWriter implements MessageBodyWriter<Model> {
             try {
                 handler.lower(model, entityStream, mediaType);
                 return;
-            } catch (ResourcePlatformException ex) {
+            } catch (RDFPException ex) {
                 messages.add("Error while trying with handler: " + handler.getClass().getSimpleName());
                 messages.add(ex.getMessage());
             }
@@ -188,7 +188,7 @@ public class ModelWriter implements MessageBodyWriter<Model> {
             try {
                 handler.lower(model, entityStream, mediaType, presentation);
                 return;
-            } catch (ResourcePlatformException ex) {
+            } catch (RDFPException ex) {
 //                messages.add("Error while trying with handler: " + handler.getClass().getSimpleName());
                 messages.add(ex.getMessage());
             }

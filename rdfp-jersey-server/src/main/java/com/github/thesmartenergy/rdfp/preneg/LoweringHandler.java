@@ -15,8 +15,8 @@
  */
 package com.github.thesmartenergy.rdfp.preneg;
 
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.RDFPException;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import java.io.OutputStream;
 import javax.ws.rs.core.MediaType;
 import org.apache.jena.rdf.model.Model;
@@ -33,17 +33,17 @@ public interface LoweringHandler {
      * @param entityStream
      * @param mediaType
      * @param presentation 
-     * @throws ResourcePlatformException 
+     * @throws RDFPException 
      */
-    void lower(Model model, OutputStream entityStream, MediaType mediaType, ResourceDescription presentation) throws ResourcePlatformException;
+    void lower(Model model, OutputStream entityStream, MediaType mediaType, ResourceDescription presentation) throws RDFPException;
 
     /**
      * 
      * @param model
      * @param entityStream
      * @param mediaType
-     * @throws ResourcePlatformException 
+     * @throws RDFPException 
      */
-    void lower(Model model, OutputStream entityStream, MediaType mediaType) throws ResourcePlatformException;
+    void lower(Model model, OutputStream entityStream, MediaType mediaType) throws RDFPException;
 
 }

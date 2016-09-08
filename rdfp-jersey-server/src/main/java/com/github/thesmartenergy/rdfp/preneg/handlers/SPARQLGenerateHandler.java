@@ -15,19 +15,20 @@
  */
 package com.github.thesmartenergy.rdfp.preneg.handlers;
 
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.preneg.LiftingHandler;
 import com.github.thesmartenergy.rdfp.jersey.PresentationUtils;
-import com.github.thesmartenergy.rdfp.BaseURI;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
+import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.RDFPException;
 import com.github.thesmartenergy.sparql.generate.jena.SPARQLGenerate;
 import com.github.thesmartenergy.sparql.generate.jena.engine.PlanFactory;
 import com.github.thesmartenergy.sparql.generate.jena.engine.RootPlan;
 import com.github.thesmartenergy.sparql.generate.jena.query.SPARQLGenerateQuery;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
@@ -36,6 +37,7 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import static org.apache.jena.vocabulary.RSS.url;
 
 /**
  *
@@ -53,24 +55,33 @@ public class SPARQLGenerateHandler extends BaseHandler implements LiftingHandler
     PresentationUtils presentationUtils;
 
     @Override
-    public Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws ResourcePlatformException {
+    public Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws RDFPException {
         if (presentation == null) {
-            throw new ResourcePlatformException("Lifting handler SPARQL Generate cannot lift without a presentation description");
+            throw new RDFPException("Lifting handler SPARQL Generate cannot lift without a presentation description");
         }
         MediaType presentationMediaType = presentationUtils.presentationAcceptedMediaType(presentation);
         if (!presentationUtils.presentationAcceptedMediaType(presentation).isCompatible(mediaType)) {
-            throw new ResourcePlatformException("Lifting handler SPARQL Generate is asked to use presentatation <" + presentation.getNode() + "> that supports media type \"" + presentationMediaType + "\", but content media type is \"" + mediaType + "\"");
+            throw new RDFPException("Lifting handler SPARQL Generate is asked to use presentatation <" + presentation.getNode() + "> that supports media type \"" + presentationMediaType + "\", but content media type is \"" + mediaType + "\"");
         }
         List<String> liftingRulesURIs = getLiftingRulesUris(presentation);
         if (liftingRulesURIs.isEmpty()) {
-            throw new ResourcePlatformException("Lifting handler SPARQL Generate could not find any lifting rule associated to presentation <" + presentation.getNode() + ">");
+            throw new RDFPException("Lifting handler SPARQL Generate could not find any lifting rule associated to presentation <" + presentation.getNode() + ">");
         }
         List<String> errors = new ArrayList<>();
         for (String liftingRuleURI : liftingRulesURIs) {
             try {
-                String liftingRule = resourceManager.getByUri(liftingRuleURI, MediaType.valueOf(SPARQLGenerate.MEDIA_TYPE));
+
+                URL obj = new URL(liftingRuleURI);
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+                conn.setReadTimeout(5000);
+                conn.addRequestProperty("Accept", SPARQLGenerate.MEDIA_TYPE + ";q=1.0,*/*;q=0.1");
+                HttpURLConnection.setFollowRedirects(true);
+                if(conn.getResponseCode()!=200) {
+                    throw new RDFPException("No SPARQL Generate rule was found at " + liftingRuleURI);
+                }
+                String liftingRule = IOUtils.toString(conn.getInputStream(), "URF-8");
                 if (liftingRule == null) {
-                    throw new ResourcePlatformException("No SPARQL Generate rule was found at " + liftingRuleURI);
+                    throw new RDFPException("No SPARQL Generate rule was found at " + liftingRuleURI);
                 }
                 SPARQLGenerateQuery query = (SPARQLGenerateQuery) QueryFactory.create(liftingRule, SPARQLGenerate.SYNTAX);
                 PlanFactory factory = new PlanFactory();
@@ -85,18 +96,18 @@ public class SPARQLGenerateHandler extends BaseHandler implements LiftingHandler
                 errors.add(ex.getClass().getName() + ": " + ex.getMessage());
                 errors.add(" at: " + ex.getStackTrace()[0].toString());
                 Throwable cause = ex.getCause();
-                while(cause != null) {
-                    errors.add("Caused by: " + cause.getClass().getName() + ": " + cause.getMessage());                
+                while (cause != null) {
+                    errors.add("Caused by: " + cause.getClass().getName() + ": " + cause.getMessage());
                     errors.add(" at: " + cause.getStackTrace()[0].toString());
                     cause = cause.getCause();
                 }
             }
         }
-        throw new ResourcePlatformException("Lifting handler SPARQL Generate could not lower with representation <" + presentation.getNode() + ">. Errors are:\n" + String.join("\n", errors));
+        throw new RDFPException("Lifting handler SPARQL Generate could not lower with representation <" + presentation.getNode() + ">. Errors are:\n" + String.join("\n", errors));
     }
 
     @Override
-    public Model lift(MediaType mediaType, InputStream entityStream) throws ResourcePlatformException {
+    public Model lift(MediaType mediaType, InputStream entityStream) throws RDFPException {
         return lift(mediaType, null, entityStream);
     }
 

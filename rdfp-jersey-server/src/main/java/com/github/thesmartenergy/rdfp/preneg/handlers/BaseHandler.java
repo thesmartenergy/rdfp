@@ -15,10 +15,9 @@
  */
 package com.github.thesmartenergy.rdfp.preneg.handlers;
 
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.rdfp.BaseURI;
-import com.github.thesmartenergy.rdfp.resources.ResourceManager;
+import com.github.thesmartenergy.ontop.BaseURI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,9 +38,6 @@ class BaseHandler {
     @Inject
     @BaseURI
     String base;
-
-    @Inject
-    ResourceManager resourceManager;
     
     public List<String> getLiftingRulesUris(ResourceDescription presentation) {
         return getRulesUris(RuleType.LIFTING, presentation);

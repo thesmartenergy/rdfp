@@ -15,8 +15,8 @@
  */
 package com.github.thesmartenergy.rdfp.preneg;
 
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.RDFPException;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import java.io.InputStream;
 import javax.ws.rs.core.MediaType;
 import org.apache.jena.rdf.model.Model;
@@ -27,7 +27,7 @@ import org.apache.jena.rdf.model.Model;
  */
 public interface LiftingHandler {
 
-    Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws ResourcePlatformException;
+    Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws RDFPException;
 
-    Model lift(MediaType mediaType, InputStream entityStream) throws ResourcePlatformException;
+    Model lift(MediaType mediaType, InputStream entityStream) throws RDFPException;
 }

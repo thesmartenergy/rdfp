@@ -17,9 +17,9 @@ package com.github.thesmartenergy.rdfp.jersey;
 
 import com.github.thesmartenergy.rdfp.preneg.LiftingHandler;
 import com.github.thesmartenergy.rdfp.preneg.ForMediaType;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
+import com.github.thesmartenergy.rdfp.RDFPException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -93,7 +93,7 @@ public class ModelReader implements MessageBodyReader<Model> {
         try {
             graphTypeURI = presentationUtils.getGraphTypeUri(annotations);
             LOG.log(Level.INFO, "use graph type " + graphTypeURI);
-        } catch (ResourcePlatformException ex) {
+        } catch (RDFPException ex) {
             String message = "Graph type URI not valid: " + ex.getMessage();
             Response response = Response.serverError().entity(message).build();
             throw new InternalServerErrorException(message, response);
@@ -161,7 +161,7 @@ public class ModelReader implements MessageBodyReader<Model> {
             } 
             try {
                 return handler.lift(mediaType, entityStream);
-            } catch (ResourcePlatformException ex) {
+            } catch (RDFPException ex) {
                 messages.add(ex.getMessage());
             }
         }
@@ -191,7 +191,7 @@ public class ModelReader implements MessageBodyReader<Model> {
             }
             try {
                 return handler.lift(mediaType, presentation, entityStream);
-            } catch (ResourcePlatformException ex) {
+            } catch (RDFPException ex) {
                 messages.add(ex.getMessage());
             }
         }

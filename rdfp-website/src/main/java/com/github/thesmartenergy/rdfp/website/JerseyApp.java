@@ -15,7 +15,8 @@
  */
 package com.github.thesmartenergy.rdfp.website;
 
-import com.github.thesmartenergy.rdfp.BaseURI;
+import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.ontop.DevelopmentBaseURI;
 import java.util.logging.Logger;
 import javax.enterprise.inject.Produces;
 import javax.ws.rs.ApplicationPath;
@@ -25,19 +26,24 @@ import org.glassfish.jersey.server.ResourceConfig;
  *
  * @author maxime.lefrancois
  */
-@ApplicationPath("example") 
+@ApplicationPath("example")
 public class JerseyApp extends ResourceConfig {
 
     private static final Logger LOG = Logger.getLogger(JerseyApp.class.getSimpleName());
 
     public JerseyApp() {
-        packages("com.github.thesmartenergy.rdfp"); 
-        packages("com.github.thesmartenergy.rdfp.website"); 
-    } 
+        packages("com.github.thesmartenergy.rdfp");
+        packages("com.github.thesmartenergy.rdfp.website");
+    }
     
+    static final boolean DEV = false;
+
     @Produces
     @BaseURI
-    public String getBase() {
-        return "https://w3id.org/rdfp/";
-    }
+    static final String BASE = "https://w3id.org/rdfp/";
+
+    @Produces
+    @DevelopmentBaseURI
+    static final String DEV_BASE = DEV ? "http://localhost:8080/rdfp/" : BASE;
+
 }

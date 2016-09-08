@@ -16,8 +16,8 @@
 package com.github.thesmartenergy.rdfp.jersey;
 
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.RDFPException;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -72,7 +72,7 @@ public class PresentationResponseFilter implements ContainerResponseFilter {
             MediaType mediaType;
             try {
                 mediaType = presentationUtils.presentationAcceptedMediaType(presentation);
-            } catch (ResourcePlatformException ex) {
+            } catch (RDFPException ex) {
                 responseContext.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
                 responseContext.setEntity("Could not parse mediaType for presentation <" + presentationURI + ">. Error was: " + ex.getMessage());
                 return;

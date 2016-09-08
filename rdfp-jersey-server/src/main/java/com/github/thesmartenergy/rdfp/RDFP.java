@@ -35,5 +35,5 @@ public class RDFP {
     public static final Property loweringRule = ResourceFactory.createProperty(NS + "loweringRule");
 
     public static final Property liftingRule = ResourceFactory.createProperty(NS + "liftingRule");
-    public static final Property mediaType = ResourceFactory.createProperty(NS + "mediaType");
+    
 }

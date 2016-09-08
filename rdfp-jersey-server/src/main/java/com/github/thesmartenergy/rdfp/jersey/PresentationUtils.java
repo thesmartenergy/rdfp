@@ -15,10 +15,11 @@
  */
 package com.github.thesmartenergy.rdfp.jersey;
 
+import com.github.thesmartenergy.ontop.ONTOP;
 import com.github.thesmartenergy.rdfp.preneg.GraphDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.rdfp.ResourcePlatformException;
-import com.github.thesmartenergy.rdfp.resources.ResourceDescription;
+import com.github.thesmartenergy.rdfp.RDFPException;
+import com.github.thesmartenergy.rdfp.ResourceDescription;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -44,7 +45,7 @@ public class PresentationUtils {
     
     private static final Logger LOG = Logger.getLogger(PresentationUtils.class.getSimpleName());
 
-    public String getGraphTypeUri(Annotation[] annotations) throws ResourcePlatformException {
+    public String getGraphTypeUri(Annotation[] annotations) throws RDFPException {
         try {
             for (Annotation a : annotations) {
                 if (a.annotationType().equals(GraphDescription.class)) {
@@ -52,27 +53,27 @@ public class PresentationUtils {
                 }
             }
         } catch (URISyntaxException | MalformedURLException ex) {
-            throw new ResourcePlatformException("Illegal URI for graph type: ", ex);
+            throw new RDFPException("Illegal URI for graph type: ", ex);
         }
         return null;
     }
     
-    public MediaType presentationAcceptedMediaType(ResourceDescription presentation) throws ResourcePlatformException {
-        Statement mediaTypeStatement = presentation.getModel().getProperty(presentation.getNode().asResource(), RDFP.mediaType);
+    public MediaType presentationAcceptedMediaType(ResourceDescription presentation) throws RDFPException {
+        Statement mediaTypeStatement = presentation.getModel().getProperty(presentation.getNode().asResource(), ONTOP.mediaType);
         if(mediaTypeStatement == null) {
-            throw new ResourcePlatformException("No declared mediatype here !");
+            throw new RDFPException("No declared mediatype here !");
         }
         RDFNode acceptedMediaTypeNode = mediaTypeStatement.getObject();
         if (acceptedMediaTypeNode == null) {
-            throw new ResourcePlatformException("presentation <" + presentation.getNode() + "> must declare a mediaType.");
+            throw new RDFPException("presentation <" + presentation.getNode() + "> must declare a mediaType.");
         }
         if (!acceptedMediaTypeNode.isLiteral()) {
-            throw new ResourcePlatformException("mediaType of presentation <" + presentation.getNode() + "> should be a literal. Got " + acceptedMediaTypeNode);
+            throw new RDFPException("mediaType of presentation <" + presentation.getNode() + "> should be a literal. Got " + acceptedMediaTypeNode);
         }
         try {
             return MediaType.valueOf(acceptedMediaTypeNode.asLiteral().getLexicalForm());
         } catch (Exception ex) {
-            throw new ResourcePlatformException("error while parsing \"" + acceptedMediaTypeNode.asLiteral().getLexicalForm() + "\" as a mediaType");
+            throw new RDFPException("error while parsing \"" + acceptedMediaTypeNode.asLiteral().getLexicalForm() + "\" as a mediaType");
         }
     }
     
@@ -88,7 +89,7 @@ public class PresentationUtils {
             ResourceDescription presentation = new ResourceDescription(nit.next(), graphType.getModel());
             try {
                 mediaTypes.add(presentationAcceptedMediaType(presentation));
-            } catch (ResourcePlatformException ex) {
+            } catch (RDFPException ex) {
                 LOG.log(Level.WARNING, "error while reading mediaType for presentation <" + presentation.getNode() + ">: " + ex.getMessage());
             }
         }
