@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.github.thesmartenergy</groupId>
             <artifactId>ontop-jersey</artifactId>
-            <version>${ontop.version}</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.thesmartenergy</groupId>
@@ -91,7 +91,7 @@
                 <plugin>
                     <groupId>com.github.thesmartenergy</groupId>
                     <artifactId>ontop-maven-plugin</artifactId>
-                    <version>${ontop.version}</version>
+                    <version>1.0</version>
                     <executions>
                         <execution>
                             <goals>

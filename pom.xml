@@ -47,7 +47,7 @@
         <url>https://${repository.domain}/${repository.user}/${repository.name}</url>
         <developerConnection>scm:git:https://${repository.domain}/${repository.user}/${repository.name}.git
         </developerConnection>
-    </scm>
+  </scm>
     
     <issueManagement>
         <url>http://${repository.domain}/${repository.user}/${repository.name}/issues</url>
