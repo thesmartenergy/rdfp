@@ -1,0 +1,19 @@
+{ "M17": {
+        "dateTime": { 
+            "day": "10",
+            "month": "01",
+            "year": "2008"} ,
+        "to": "Tove",
+        "from": "Jani",
+        "heading": "Reminder",
+        "body": "Don't forget me this weekend!" },
+ "M18": {
+        "dateTime": { 
+            "day": "10",
+            "month": "2",
+            "year": "2008"} ,
+        "to": "Chris",
+        "from": "Rick",
+        "heading": "Update",
+        "body": "We now leave at six" }
+}
