@@ -15,7 +15,6 @@
  */
 package com.github.thesmartenergy.rdfp.jersey;
 
-import com.github.thesmartenergy.ontop.ONTOP;
 import com.github.thesmartenergy.rdfp.preneg.GraphDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
 import com.github.thesmartenergy.rdfp.RDFPException;
@@ -59,7 +58,7 @@ public class PresentationUtils {
     }
     
     public MediaType presentationAcceptedMediaType(ResourceDescription presentation) throws RDFPException {
-        Statement mediaTypeStatement = presentation.getModel().getProperty(presentation.getNode().asResource(), ONTOP.mediaType);
+        Statement mediaTypeStatement = presentation.getModel().getProperty(presentation.getNode().asResource(), RDFP.mediaType);
         if(mediaTypeStatement == null) {
             throw new RDFPException("No declared mediatype here !");
         }

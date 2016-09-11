@@ -19,7 +19,7 @@ import com.github.thesmartenergy.rdfp.preneg.ForMediaType;
 import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.preneg.LiftingHandler;
 import com.github.thesmartenergy.rdfp.preneg.LoweringHandler;
-import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.BaseURI;
 import com.github.thesmartenergy.rdfp.RDFPException;
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -15,8 +15,8 @@
  */
 package com.github.thesmartenergy.rdfp.website;
 
-import com.github.thesmartenergy.ontop.BaseURI;
-import com.github.thesmartenergy.ontop.DevelopmentBaseURI;
+import com.github.thesmartenergy.rdfp.BaseURI;
+import com.github.thesmartenergy.rdfp.DevelopmentBaseURI;
 import java.util.logging.Logger;
 import javax.enterprise.inject.Produces;
 import javax.ws.rs.ApplicationPath;
@@ -32,7 +32,7 @@ public class JerseyApp extends ResourceConfig {
     private static final Logger LOG = Logger.getLogger(JerseyApp.class.getSimpleName());
 
     public JerseyApp() {
-        packages("com.github.thesmartenergy.rdfp");
+        packages("com.github.thesmartenergy.rdfp.jersey");
         packages("com.github.thesmartenergy.rdfp.website");
     }
     

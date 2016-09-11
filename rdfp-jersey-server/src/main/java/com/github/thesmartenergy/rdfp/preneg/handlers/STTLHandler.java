@@ -17,9 +17,10 @@ package com.github.thesmartenergy.rdfp.preneg.handlers;
 
 import com.github.thesmartenergy.rdfp.preneg.LoweringHandler;
 import com.github.thesmartenergy.rdfp.jersey.PresentationUtils;
-import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.BaseURI;
 import com.github.thesmartenergy.rdfp.RDFPException;
 import com.github.thesmartenergy.rdfp.ResourceDescription;
+import com.github.thesmartenergy.sparql.generate.jena.SPARQLGenerate;
 import fr.inria.edelweiss.kgraph.core.Graph;
 import fr.inria.edelweiss.kgtool.load.Load;
 import fr.inria.edelweiss.kgtool.load.LoadException;
@@ -91,6 +92,10 @@ public class STTLHandler extends BaseHandler implements LoweringHandler {
                 if (alt != null) {
                     loweringRuleURI = alt;
                 }
+//                String accept = "application/vnd.corese-rules;q=1.0,*/*;q=0.1";
+//                String loweringRule = getRule(loweringRuleURI, accept);
+
+                // bug here: Transformer.create cannot switch from protocols https to http.
                 Transformer t = Transformer.create(g, loweringRuleURI);
                 entityStream.write(t.transform().getBytes());
                 return;

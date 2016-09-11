@@ -24,7 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
-import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.BaseURI;
 import com.github.thesmartenergy.rdfp.preneg.GraphDescription;
 
 /**
@@ -50,7 +50,7 @@ public class Example {
     @GET
     @GraphDescription("https://w3id.org/rdfp/example/graph")
     public Response doGet() {
-        Model model = RDFDataMgr.loadModel(Example.class.getClassLoader().getResource("resources/input-example.ttl").toString());
+        Model model = RDFDataMgr.loadModel(Example.class.getClassLoader().getResource("_ontop/example/input.ttl").toString());
         return Response.ok(model).build();
     }
 

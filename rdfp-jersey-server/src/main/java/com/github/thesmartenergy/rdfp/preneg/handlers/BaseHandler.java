@@ -17,12 +17,16 @@ package com.github.thesmartenergy.rdfp.preneg.handlers;
 
 import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.BaseURI;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
+import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
@@ -78,4 +82,29 @@ class BaseHandler {
         }
     }
 
+    protected String getRule(String url, String accept) throws IOException {
+        URL resourceUrl, base, next;
+        HttpURLConnection conn;
+        String location;
+        while (true) {
+            resourceUrl = new URL(url);
+            conn = (HttpURLConnection) resourceUrl.openConnection();
+            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(15000);
+            conn.setInstanceFollowRedirects(false);   // Make the logic below easier to detect redirections
+            conn.setRequestProperty("User-Agent", "RDFP");
+            conn.addRequestProperty("Accept", accept);
+            switch (conn.getResponseCode()) {
+                case HttpURLConnection.HTTP_MOVED_PERM:
+                case HttpURLConnection.HTTP_MOVED_TEMP:
+                    location = conn.getHeaderField("Location");
+                    base = new URL(url);
+                    next = new URL(base, location);  // Deal with relative URLs
+                    url = next.toExternalForm();
+                    continue;
+            }
+            break;
+        }
+        return IOUtils.toString(conn.getInputStream(), "UTF-8");
+    }
 }

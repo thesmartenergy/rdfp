@@ -18,12 +18,13 @@ package com.github.thesmartenergy.rdfp.preneg.handlers;
 import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.preneg.LiftingHandler;
 import com.github.thesmartenergy.rdfp.jersey.PresentationUtils;
-import com.github.thesmartenergy.ontop.BaseURI;
+import com.github.thesmartenergy.rdfp.BaseURI;
 import com.github.thesmartenergy.rdfp.RDFPException;
 import com.github.thesmartenergy.sparql.generate.jena.SPARQLGenerate;
 import com.github.thesmartenergy.sparql.generate.jena.engine.PlanFactory;
 import com.github.thesmartenergy.sparql.generate.jena.engine.RootPlan;
 import com.github.thesmartenergy.sparql.generate.jena.query.SPARQLGenerateQuery;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,7 +38,6 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import static org.apache.jena.vocabulary.RSS.url;
 
 /**
  *
@@ -71,18 +71,13 @@ public class SPARQLGenerateHandler extends BaseHandler implements LiftingHandler
         for (String liftingRuleURI : liftingRulesURIs) {
             try {
 
-                URL obj = new URL(liftingRuleURI);
-                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
-                conn.setReadTimeout(5000);
-                conn.addRequestProperty("Accept", SPARQLGenerate.MEDIA_TYPE + ";q=1.0,*/*;q=0.1");
-                HttpURLConnection.setFollowRedirects(true);
-                if(conn.getResponseCode()!=200) {
-                    throw new RDFPException("No SPARQL Generate rule was found at " + liftingRuleURI);
-                }
-                String liftingRule = IOUtils.toString(conn.getInputStream(), "URF-8");
+                String accept = SPARQLGenerate.MEDIA_TYPE + ";q=1.0,*/*;q=0.1";
+                String liftingRule = getRule(liftingRuleURI, accept);
+                System.out.println(liftingRule);
                 if (liftingRule == null) {
                     throw new RDFPException("No SPARQL Generate rule was found at " + liftingRuleURI);
                 }
+
                 SPARQLGenerateQuery query = (SPARQLGenerateQuery) QueryFactory.create(liftingRule, SPARQLGenerate.SYNTAX);
                 PlanFactory factory = new PlanFactory();
                 RootPlan plan = factory.create(query);

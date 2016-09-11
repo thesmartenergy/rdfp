@@ -167,7 +167,7 @@ public class ModelWriter implements MessageBodyWriter<Model> {
         }
         String message = "Could not lower RDF content:\n" + String.join("\n", messages);
         Response response = Response.serverError().entity(message).build();
-        throw new InternalServerErrorException(message, response);
+        throw new InternalServerErrorException(response);
 
     }
 
@@ -195,7 +195,7 @@ public class ModelWriter implements MessageBodyWriter<Model> {
         }
         String message = "Could not lower RDF content:\n" + String.join("\n", messages);
         Response response = Response.serverError().entity(message).build();
-        throw new InternalServerErrorException(response);
+        throw new InternalServerErrorException(message, response);
     }
 
 }

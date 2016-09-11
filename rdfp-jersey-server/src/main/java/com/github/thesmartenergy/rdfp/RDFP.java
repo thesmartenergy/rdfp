@@ -15,7 +15,9 @@
  */
 package com.github.thesmartenergy.rdfp;
 
+import javax.ws.rs.core.MediaType;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
 /**
@@ -23,6 +25,10 @@ import org.apache.jena.rdf.model.ResourceFactory;
  * @author Maxime Lefrançois <maxime.lefrancois at emse.fr>
  */
 public class RDFP {
+
+    public static final MediaType APPLICATION_RDFXML_TYPE = MediaType.valueOf("application/rdf+xml");
+    
+    public static final MediaType TEXT_TURTLE_TYPE = MediaType.valueOf("text/turtle");
 
     public static final String NS = "https://w3id.org/rdfp/";
     
@@ -36,4 +42,14 @@ public class RDFP {
 
     public static final Property liftingRule = ResourceFactory.createProperty(NS + "liftingRule");
     
+    public static final Resource Graph = ResourceFactory.createResource(NS + "Graph");
+
+    public static final Resource Resource = ResourceFactory.createResource(NS + "Resource");
+
+    public static final Property representedBy = ResourceFactory.createProperty(NS + "representedBy");
+
+    public static final Property mediaType = ResourceFactory.createProperty(NS + "mediaType");
+
+    public static final Property alias = ResourceFactory.createProperty(NS + "alias");
+
 }

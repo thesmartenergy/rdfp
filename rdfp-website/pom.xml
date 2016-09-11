@@ -11,62 +11,11 @@
 
     <name>RDF Presentation - website</name>
     <description>The website for exposing the RDF Presentation ontology, and demonstrating RDF Presentation negociation.</description>
-    <url>http://w3id.org/rdfp/</url>
-    <inceptionYear>2016</inceptionYear>
-
-    <organization>
-        <name>ITEA 12004 SEAS Project</name>
-        <url>https://itea3.org/project/seas.html</url>
-    </organization>
-
-    <scm>
-        <connection>scm:git:https://${repository.domain}/${repository.user}/rdfp.git</connection>
-        <url>https://${repository.domain}/${repository.user}/rdfp</url>
-        <developerConnection>scm:git:ssh://${repository.domain}/${repository.user}/rdfp.git
-        </developerConnection>
-    <tag>1.1</tag>
-  </scm>
-
-    <issueManagement>
-        <url>http://${repository.domain}/${repository.user}/rdfp/issues</url>
-        <system>GitHub Issues</system>
-    </issueManagement>
-        
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+    <url>https://w3id.org/rdfp/</url>
 
     <properties>
-        <websiteName>rdfp</websiteName>
-
-        <!-- ========================  -->
-        <!--    GitHub PROPERTIES      -->
-        <!-- ========================  -->
-
-        <project.scm.id>git</project.scm.id>
-        <github.global.server>github.com</github.global.server>
-
-        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <jersey.version>2.22.2</jersey.version>
-
-        <!-- ==========================  -->
-        <!--    CHANGE LOG PROPERTIES    -->
-        <!-- ==========================  -->
-        <changelog.github.fileUri>${project.scm.url}/tree/master/%FILE%</changelog.github.fileUri>
-        <changelog.revision.github.fileUri>${project.scm.url}/commit</changelog.revision.github.fileUri>
-        <changelog.fileUri>${changelog.github.fileUri}</changelog.fileUri>
-        <changelog.revision.fileUri>${changelog.revision.github.fileUri}</changelog.revision.fileUri>
-
-        <!-- ========================  -->
-        <!--    SITE DOC PROPERTIES    -->
-        <!-- ========================  -->
-        <repository.domain>github.com</repository.domain>
-        <repository.user>thesmartenergy</repository.user>
-        <repository.name>rdfp</repository.name>
+        <ontop.version>1.0-SNAPSHOT</ontop.version>
     </properties>
     
     <dependencyManagement>
@@ -123,7 +72,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- dependencies for rdfp -->
+        <dependency>
+            <groupId>com.github.thesmartenergy</groupId>
+            <artifactId>ontop-jersey</artifactId>
+            <version>${ontop.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.thesmartenergy</groupId>
             <artifactId>rdfp-jersey-server</artifactId>
@@ -132,14 +85,24 @@
     </dependencies>
 
     <build>
-        <finalName>rdfp</finalName>
+        <finalName>${websiteName}</finalName>
         <pluginManagement>
             <plugins>
-                <!-- ========================  -->
-                <!--    SITE LIFECYCLE         -->
-                <!-- ========================  -->
-
-                <!-- configure attach-descriptor  -->
+                <plugin>
+                    <groupId>com.github.thesmartenergy</groupId>
+                    <artifactId>ontop-maven-plugin</artifactId>
+                    <version>${ontop.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <siteOutputDirectory>target\${project.build.finalName}</siteOutputDirectory>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
@@ -177,6 +140,7 @@
                     </configuration>        
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.0.0</version>
                     <executions>
@@ -187,7 +151,7 @@
                                 <goal>copy-resources</goal>
                             </goals>
                             <configuration>
-                                <outputDirectory>${basedir}/target/rdfp/apidocs</outputDirectory>
+                                <outputDirectory>${basedir}/target/${project.build.finalName}/apidocs</outputDirectory>
                                 <resources>          
                                     <resource>
                                         <directory>../rdfp-jersey-server/target/apidocs</directory>
@@ -222,7 +186,7 @@
                             </goals>
                             <configuration>
                                 <sourceFile>../target/site/project-summary.html</sourceFile>
-                                <destinationFile>${basedir}/target/rdfp/project-summary.html</destinationFile>
+                                <destinationFile>${basedir}/target/${project.build.finalName}/project-summary.html</destinationFile>
                             </configuration>            
                         </execution>
                         <execution>
@@ -233,7 +197,7 @@
                             </goals>
                             <configuration>
                                 <sourceFile>../target/site/source-repository.html</sourceFile>
-                                <destinationFile>${basedir}/target/rdfp/source-repository.html</destinationFile>
+                                <destinationFile>${basedir}/target/${project.build.finalName}/source-repository.html</destinationFile>
                             </configuration>            
                         </execution>
                         <execution>
@@ -244,7 +208,7 @@
                             </goals>
                             <configuration>
                                 <sourceFile>../target/site/issue-tracking.html</sourceFile>
-                                <destinationFile>${basedir}/target/rdfp/issue-tracking.html</destinationFile>
+                                <destinationFile>${basedir}/target/${project.build.finalName}/issue-tracking.html</destinationFile>
                             </configuration>            
                         </execution>
                     </executions>
@@ -252,71 +216,24 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <!-- Run the RAT Plugin -->
             <plugin>
-                <groupId>org.apache.rat</groupId>
-                <artifactId>apache-rat-plugin</artifactId>
+                <groupId>com.github.thesmartenergy</groupId>
+                <artifactId>ontop-maven-plugin</artifactId>
             </plugin>
-            <!-- attach-descriptor  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.0</version>
             </plugin>
             <plugin>
                 <groupId>com.coderplus.maven.plugins</groupId>
                 <artifactId>copy-rename-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.1</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${endorsed.dir}</outputDirectory>
-                            <silent>true</silent>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>javax</groupId>
-                                    <artifactId>javaee-endorsed-api</artifactId>
-                                    <version>7.0</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <!-- deploy  -->
+
+            <!-- skip deployment of the website -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
