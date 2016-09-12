@@ -37,6 +37,7 @@ public class ResourceDescription {
         } catch (MalformedURLException | URISyntaxException | IllegalArgumentException ex) {
             throw new IllegalArgumentException("Illegal resource IRI: " + uri, ex); 
         }
+        System.out.println("uri to load is " + uri);
         model = RDFDataMgr.loadModel(uri);
         if (model == null) {
             throw new IllegalArgumentException("Could not find a description for graph type " + uri);
