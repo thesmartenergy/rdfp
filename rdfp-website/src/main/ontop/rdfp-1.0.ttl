@@ -138,7 +138,7 @@ maxime.lefrancois.86@gmail.com
 
 http://maxime-lefrancois.info/
 """@en ;
-  dc:author <http://maxime-lefrancois.info/me#> ;
+  dc:creator <http://maxime-lefrancois.info/me#> ;
   dc:issued "2016-08-31"^^xsd:date ;
   dc:modified "2016-09-08"^^xsd:date ;
   cc:license <https://creativecommons.org/licenses/by/4.0/> ;
