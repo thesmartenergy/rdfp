@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Property;
@@ -38,10 +37,6 @@ import org.apache.jena.rdf.model.RDFNode;
 class BaseHandler {
 
     private static final Logger LOG = Logger.getLogger(BaseHandler.class.getSimpleName());
-
-    @Inject
-    @BaseURI
-    String base;
     
     public List<String> getLiftingRulesUris(ResourceDescription presentation) {
         return getRulesUris(RuleType.LIFTING, presentation);

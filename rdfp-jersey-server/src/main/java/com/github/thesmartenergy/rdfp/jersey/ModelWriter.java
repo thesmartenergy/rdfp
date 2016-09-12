@@ -178,6 +178,7 @@ public class ModelWriter implements MessageBodyWriter<Model> {
         }
         List<String> messages = new ArrayList<>();
         Iterator<LoweringHandler> it = loweringHandlerInstance.iterator();
+        it = loweringHandlerInstance.iterator();
         while (it.hasNext()) {
             LoweringHandler handler = it.next();
             ForMediaType handledMediaType = handler.getClass().getAnnotation(ForMediaType.class);

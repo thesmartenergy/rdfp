@@ -47,12 +47,15 @@ public class SPARQLGenerateHandler extends BaseHandler implements LiftingHandler
 
     private static final Logger LOG = Logger.getLogger(SPARQLGenerateHandler.class.getSimpleName());
 
-    @Inject
-    @BaseURI
-    String base;
+    final String base;
+
+    final PresentationUtils presentationUtils;
 
     @Inject
-    PresentationUtils presentationUtils;
+    public SPARQLGenerateHandler(@BaseURI String base, PresentationUtils presentationUtils) {
+        this.base = base;
+        this.presentationUtils = presentationUtils;
+    }
 
     @Override
     public Model lift(MediaType mediaType, ResourceDescription presentation, InputStream entityStream) throws RDFPException {
@@ -73,7 +76,6 @@ public class SPARQLGenerateHandler extends BaseHandler implements LiftingHandler
 
                 String accept = SPARQLGenerate.MEDIA_TYPE + ";q=1.0,*/*;q=0.1";
                 String liftingRule = getRule(liftingRuleURI, accept);
-                System.out.println(liftingRule);
                 if (liftingRule == null) {
                     throw new RDFPException("No SPARQL Generate rule was found at " + liftingRuleURI);
                 }
