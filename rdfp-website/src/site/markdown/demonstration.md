@@ -1,6 +1,6 @@
 # Demonstration
 
-Resource https://w3id.org/rdfp/example on this website demonstrates RDF Presentation Negotiation, and the use of the `rdfp-jersey-server` implementation.
+Resource http://ci.emse.fr/rdfp/example demonstrates RDF Presentation Negotiation, and the use of the `rdfp-jersey-server` implementation.
 
 The resource exposes and consumes RDF Graphs that are described by https://w3id.org/rdfp/example/graph (negotiate its representation with the server, or directly access the [turtle](https://w3id.org/rdfp/example/description.ttl), or a [RDF/XML](https://w3id.org/rdfp/example/description.rdf) document).
 
@@ -19,6 +19,7 @@ Also, two other RDF Presentations can be played with:
 
 
 In order to test the POST operation, examples of inputs can be found at URL https://w3id.org/rdfp/example/input. Negotiate its representation with the server, or directly access:
+
 -  https://w3id.org/rdfp/example/input.txt
 -  https://w3id.org/rdfp/example/input.json
 -  https://w3id.org/rdfp/example/input.xml
@@ -27,26 +28,28 @@ In order to test the POST operation, examples of inputs can be found at URL http
 
 Examples of the requests you can test include:
 
+_note: POST at https://w3id.org/rdfp/example does not work, use http://ci.emse.fr/rdfp/example_
+
 ```
-POST /rdfp/example
+POST /rdfp/example (--> POST http://ci.emse.fr/rdfp/example)
 Content-Type: text/turtle
 
 -- the content of https://w3id.org/rdfp/example/input.ttl in the body -- 
 
 
-POST /rdfp/example
+POST /rdfp/example (--> POST http://ci.emse.fr/rdfp/example)
 Content-Type: application/xml
 
 -- the content of https://w3id.org/rdfp/example/input.xml in the body -- 
 
 
-POST /rdfp/example
+POST /rdfp/example 
 Content-Type: application/json
 
 -- the content of https://w3id.org/rdfp/example/input.json in the body -- 
 
 
-POST /rdfp/example
+POST /rdfp/example 
 Content-Type: text/plain
 Content-Presentation: https://w3id.org/rdfp/presentation3
 
@@ -56,13 +59,13 @@ Content-Presentation: https://w3id.org/rdfp/presentation3
 Examples of requests that trigger errors include:
 
 ```
-POST /rdfp/example
+POST /rdfp/example 
 Content-Type: foo/bar
 
 -- any content in the body  -- 
 
 
-POST/rdfp/example
+POST/rdfp/example 
 Accept: text/plain
 Accept-Presentation: https://w3id.org/rdfp/presentation2
 
@@ -74,7 +77,10 @@ Accept-Presentation: https://w3id.org/rdfp/presentation2
 
 Examples of the requests you can test include:
 
+_note: both GET https://w3id.org/rdfp/example and get http://ci.emse.fr/rdfp/example will work_
+
 ```
+
 GET /rdfp/example
 Accept: text/turtle
 

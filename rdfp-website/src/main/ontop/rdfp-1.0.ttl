@@ -22,8 +22,6 @@
 @prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix cc: <http://creativecommons.org/ns#>.
-@prefix sd: <http://www.w3.org/ns/sparql-service-description#>.
-@prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/>.
 
 @prefix rdfp: <https://w3id.org/rdfp/>.
 @base <https://w3id.org/rdfp/>.
@@ -141,7 +139,7 @@ http://maxime-lefrancois.info/
   dc:creator <http://maxime-lefrancois.info/me#> ;
   dc:issued "2016-08-31"^^xsd:date ;
   dc:modified "2016-09-08"^^xsd:date ;
-  cc:license <https://creativecommons.org/licenses/by/4.0/> ;
+  cc:license <https://www.apache.org/licenses/LICENSE-2.0/> ;
   vann:preferredNamespacePrefix "rdfp" ;
   vann:preferredNamespaceUri rdfp: ;  
   owl:versionIRI <rdfp-1.0> ;
@@ -195,14 +193,10 @@ rdfp:GraphDescription a owl:Class ;
      rdfp:presentedBy <some_presentation_description> .
 ```
 
-  Class rdfp:GraphDescription is equivalent to class sd:Graph from the SPARQL Service Description.
-
-  We can hence use property sd:graph to relate a named graph to graph description"""@en ;
+We propose an alignment of this resource with sd:Graph, but this is part of [another document](https://w3id.org/rdfp/align/sd).
+"""@en ;
   vs:term_status "testing" ;
   rdfs:isDefinedBy rdfp: .
-
-rdfp:GraphDescription rdfs:subClassOf sd:Graph .
-sd:Graph rdfs:subClassOf rdfp:GraphDescription .
 
 
 rdfp:Graph a owl:Class ;
@@ -217,13 +211,11 @@ rdfp:Graph a owl:Class ;
      rdfp:representedBy <some_rdfp_resource> .
 ```
 
-  Class rdfp:Graph is equivalent to class rdfg:Graph from the Named Graphs vocabulary RDFG."""@en ;
+We propose an alignment of this resource with rdfg:Graph, but this is part of [another document](https://w3id.org/rdfp/align/rdfg).
+"""@en ;
   rdfs:subClassOf rdfp:Resource ;
   vs:term_status "testing" ;
   rdfs:isDefinedBy rdfp: .
-
-rdfp:Graph rdfs:subClassOf rdfg:Graph .
-rdfg:Graph rdfs:subClassOf rdfp:Graph .
 
 rdfp:GraphPresentation a owl:Class ;
   rdfs:label "Presentation"@en ;

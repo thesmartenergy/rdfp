@@ -19,6 +19,12 @@
 [] a ontop:OntologySet ;
   ontop:fileSelector "[A-Za-z]+-[0-9]+\\.[0-9]+\\.ttl" .
 
+<align/rdfg> a rdfp:Graph ; 
+  ontop:filePath "rdfg-align.ttl" .
+
+<align/sd> a rdfp:Graph ; 
+  ontop:filePath "sd-align.ttl" .
+
 <example/description> a rdfp:Graph ; 
   ontop:filePath "example/example-description.ttl" .
 
