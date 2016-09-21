@@ -11,6 +11,9 @@
     <url>https://w3id.org/rdfp/</url>
     <inceptionYear>2016</inceptionYear>
 
+    <!-- command to deploy on the server: -->
+    <!-- ./make.sh rdfp-website rdfp -->
+
     <!-- command to deploy to maven: -->
     <!--mvn clean scm:checkin release:prepare release:perform -Dmessage=""-->
 
@@ -138,6 +141,7 @@
                     <configuration>
                         <excludeSubProjects>true</excludeSubProjects>
                         <excludes>
+                            <exclude>**/*.sh</exclude>
                             <exclude>**/pom.xml</exclude>
                             <exclude>**/src/site/**/*.*</exclude>
                             <exclude>**/src/main/webapp/**/*.*</exclude>
@@ -309,6 +313,44 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>docs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.3</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

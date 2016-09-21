@@ -17,7 +17,6 @@ package com.github.thesmartenergy.rdfp.preneg.handlers;
 
 import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
-import com.github.thesmartenergy.rdfp.BaseURI;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,6 +28,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.riot.system.stream.LocationMapper;
+import org.apache.jena.riot.system.stream.StreamManager;
 
 /**
  *
@@ -78,6 +79,11 @@ class BaseHandler {
     }
 
     protected String getRule(String url, String accept) throws IOException {
+        StreamManager streamManager = StreamManager.get();
+        LocationMapper loc = streamManager.getLocationMapper();
+        if(loc.getAltEntry(url) != null) {
+            return IOUtils.toString(streamManager.open(url), "UTF-8");
+        }
         URL resourceUrl, base, next;
         HttpURLConnection conn;
         String location;
