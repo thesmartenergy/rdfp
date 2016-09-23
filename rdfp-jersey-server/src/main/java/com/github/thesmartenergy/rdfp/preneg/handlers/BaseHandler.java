@@ -17,8 +17,12 @@ package com.github.thesmartenergy.rdfp.preneg.handlers;
 
 import com.github.thesmartenergy.rdfp.ResourceDescription;
 import com.github.thesmartenergy.rdfp.RDFP;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +83,17 @@ class BaseHandler {
     }
 
     protected String getRule(String url, String accept) throws IOException {
-        StreamManager streamManager = StreamManager.get();
+        StreamManager streamManager = StreamManager.get(); 
         LocationMapper loc = streamManager.getLocationMapper();
         if(loc.getAltEntry(url) != null) {
             return IOUtils.toString(streamManager.open(url), "UTF-8");
+        }
+        if(url.startsWith("file:/")) {
+            try {
+                return IOUtils.toString(new FileInputStream(new File(new URI(url))));
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(BaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         URL resourceUrl, base, next;
         HttpURLConnection conn;
