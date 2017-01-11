@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.thesmartenergy</groupId>
     <artifactId>rdfp</artifactId>
-    <version>1.2.3-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
        
     <name>RDF Presentation</name>
@@ -278,7 +278,7 @@
                             <execution>
                                 <id>install</id>
                                 <goals>
-                                    <goal>install</goal>
+                                    <goal>jar</goal>
                                     <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
