@@ -50,7 +50,7 @@
         <url>https://${repository.domain}/${repository.user}/${repository.name}</url>
         <developerConnection>scm:git:https://${repository.domain}/${repository.user}/${repository.name}.git
         </developerConnection>
-    <tag>1.2.1</tag>
+    <tag>1.2.2</tag>
   </scm>
     
     <issueManagement>

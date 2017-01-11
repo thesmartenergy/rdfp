@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.thesmartenergy</groupId>
             <artifactId>rdfp-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
     
         <!-- dependencies for Jersey and CDI -->
