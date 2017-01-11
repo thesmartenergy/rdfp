@@ -1,3 +1,7 @@
+**To cite our work:**
+
+> Maxime Lefrançois _Interopérabilité sémantique libérale pour les services et les objets_, Actes de la 17ème conférence Extraction et Gestion des Connaissances, EGC, Jan 2017, Grenoble, France - ([PDF](http://www.maxime-lefrancois.info/docs/Lefrancois-EGC2017-Interoperabilite.pdf) - [BibTeX](Lefrancois-EGC2017-Interoperabilite.bib))
+
 # Get Started
 
 `rdfp-jersey-server` is an extension of Jersey that eases the development of RESTful services that produce and consume RDF. It hides the RDF Presentation description and RDF Presentation Negotiation parts, and lets the end developer focus on manipulating RDF Graphs as [Apache Jena](http://jena.apache.org/) models.

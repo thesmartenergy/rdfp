@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.thesmartenergy</groupId>
         <artifactId>rdfp</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
 
     <artifactId>rdfp-jersey-server</artifactId>
@@ -25,6 +25,13 @@
     </properties>
     
     <dependencies>
+        <!-- dependencies for core -->
+        <dependency>
+            <groupId>com.github.thesmartenergy</groupId>
+            <artifactId>rdfp-core</artifactId>
+            <version>${version}</version>
+        </dependency>
+    
         <!-- dependencies for Jersey and CDI -->
         <dependency>
             <groupId>javax</groupId>
@@ -92,7 +99,7 @@
 
     <build>
         <finalName>rdfp-jersey-server-${project.version}</finalName>
-         <plugins>                
+         <plugins>   
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>

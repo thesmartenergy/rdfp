@@ -30,6 +30,11 @@ rdfp: rdf:type voaf:Vocabulary , owl:Ontology ;
   dc:title "The RDF Presentation ontology"@en ;
   dc:description """## RDF Presentation and RDF Presentation Negotiation
 
+**To cite our work:**
+
+> Maxime Lefrançois _Interopérabilité sémantique libérale pour les services et les objets_, Actes de la 17ème conférence Extraction et Gestion des Connaissances, EGC, Jan 2017, Grenoble, France - ([PDF](http://www.maxime-lefrancois.info/docs/Lefrancois-EGC2017-Interoperabilite.pdf) - [BibTeX](Lefrancois-EGC2017-Interoperabilite.bib))
+
+
 An RDF graph can be presented in several ways, using different media types. Examples of RDF media types include `application/rdf+xml`, `text/turtle`, `application/json+ld`.
 
 Today, most of the content consumed/produced/published, on the Web is not presented in RDF. 
