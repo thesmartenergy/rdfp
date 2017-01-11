@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.thesmartenergy</groupId>
+        <artifactId>rdfp</artifactId>
+        <version>1.2.1</version>
+    </parent>
+
+    <artifactId>rdfp-core</artifactId>
+    <packaging>jar</packaging>
+
+    <name>RDF Presentation - core</name>
+    <description>Core classes for RDF Presentation</description>
+    <url>https://w3id.org/rdfp/</url>
+
+    <dependencies>
+        <!-- dependencies for Jersey and CDI -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- dependencies for jena -->
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>rdfp-core-${project.version}</finalName>
+         <plugins>
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+            </plugin>
+         </plugins>
+    </build>
+    
+</project>
