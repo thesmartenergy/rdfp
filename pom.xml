@@ -276,9 +276,9 @@
                         <version>3.0.0</version>
                         <executions>
                             <execution>
-                                <id>attach-sources</id>
+                                <id>install</id>
                                 <goals>
-                                    <goal>jar</goal>
+                                    <goal>install</goal>
                                     <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
